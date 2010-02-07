@@ -1,0 +1,32 @@
+html, body { margin: 0; body: 0; }
+body { font-family: sans-serif; }
+
+article { padding: 10px; display: block; }
+
+a { text-decoration: none; color: #000; }
+article a { color: blue; }
+
+nav { display: table; width: 100%; border-collapse: collapse; border-bottom: 1px solid #ddd; }
+nav a { display: table-cell; text-align: center; padding: 10px; background: #000; color: #fff; width: 33%; border-left: 1px solid #fff; }
+nav a:first-child { border-left: none; }
+nav a:hover { background: #666; }
+
+table { border-collapse: collapse; width: 100%; }
+tr { border-bottom: 1px solid #eee; }
+tr:nth-child(even) { background-color: #f6f6f6; }
+
+colgroup { border-left: 1px solid #eee; }
+colgroup:first-child { border-left: none; }
+
+td a { display: block; }
+th, td a { padding: 5px 10px; }
+td a:hover { background: #eee; }
+
+#playlist thead th:first-child { text-align: left; max-width:50%; }
+#playlist td.file, #playlist td.changes { text-align: center; }
+#playlist a.play { text-align: center; }
+
+#bookmarklets { padding-left: 0; }
+#bookmarklets li { display: inline-block; padding-right: 5px; }
+#bookmarklets a { background-color: #ed6; color: #000; border: 1px solid #666; padding: 0px 5px; text-align: center; }
+
