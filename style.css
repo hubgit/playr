@@ -6,10 +6,29 @@ article { padding: 10px; display: block; }
 a { text-decoration: none; color: #000; }
 article a { color: blue; }
 
+/*
 nav { display: table; width: 100%; border-collapse: collapse; border-bottom: 1px solid #ddd; }
 nav a { display: table-cell; text-align: center; padding: 10px; background: #000; color: #fff; width: 33%; border-left: 1px solid #fff; }
 nav a:first-child { border-left: none; }
 nav a:hover { background: #666; }
+*/
+nav { display: table; width: 100%; border-collapse: collapse; border-bottom:1px solid #ccc; background:#ddd; }
+
+nav a  {
+  border-left: 1px solid #ccc;
+  color:#777;
+  display:table-cell;
+  padding: 10px;
+  text-align:center;
+  text-shadow:0 0 5px #bbb;
+  vertical-align:middle;
+  width:33%;
+  font-family: "Helvetica", sans-serif;
+  font-weight: bold;
+}
+
+nav a:first-child { border-left: none; }
+nav a:hover { color: #444; }
 
 table { border-collapse: collapse; width: 100%; }
 tr { border-bottom: 1px solid #eee; }

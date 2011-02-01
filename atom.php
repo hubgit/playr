@@ -1,15 +1,31 @@
-<?php 
+<?
 require dirname(__FILE__) . '/main.php';
 
 $db = new DB;
 $result = $db->query("SELECT * FROM playlists ORDER BY id DESC LIMIT 10");
 
-$date = date(DATE_ATOM);
+$now = time();
 
-header("Content-Type: application/atom+xml; charset=utf-8");
-print '<?xml version="1.0" encoding="utf-8"?>';
+$feed = new Atom('Playr: New Playlists', array('name' => 'Playr'), array('link' => array('text/html' => 'http://playr.hubmed.org/new.php')));
+
+while ($item = mysql_fetch_object($result)){
+  $flash_params['playlistfile'] = play_url('xspf', $item->url);
+  $entry = $feed->addEntry('tag:playr.hubmed.org,2005:atom,' . $item->id, $item->title, $now, NULL, array('link' => array('text/html' => $item->url)));
+  $content = $feed->addContent($entry);
+
+  $p = $feed->addTextChild($content, 'p', 'Play ');
+  $a = $feed->addTextChild($p, 'a', 'Flash');
+  $a->setAttribute('href', url(FLASH_PLAYER, $flash_params));
+
+  $p = $feed->dom->createElement('p');
+  $content->appendChild($p);
+  $a = $feed->addTextChild($p, 'a', 'Original page');
+  $a->setAttribute('href', $item->url);
+}
+
+$feed->output();
+
 ?>
-
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>Playr: New Playlists</title>
     <subtitle>New Playlists</subtitle>
@@ -21,22 +37,23 @@ print '<?xml version="1.0" encoding="utf-8"?>';
       <email>alf@hubmed.org</email>
     </author>
     <icon>http://playr.hubmed.org/favicon.ico</icon>
-    <updated><?php print $date; ?></updated>
+    <updated><? print $date; ?></updated>
 
-<?php while ($item = mysql_fetch_object($result)): ?>
-<?php $flash_params['playlistfile'] = 'play.php?url=' . rawurlencode($item->url) . '&format=.xspf'; ?>
+<? while ($item = mysql_fetch_object($result)): ?>
+<? $flash_params['playlistfile'] = play_url('xspf', $item->url); ?>
     <entry>
-      <link rel="alternate" type="text/html" href="<?php p($item->url, 'attr'); ?>" />
-      <title><?php p($item->title); ?></title>
-      <id>tag:playr.hubmed.org,2005:atom,<?php p($item->id, 'attr'); ?></id>
-      <updated><?php print $date; ?></updated>
+      <link rel="alternate" type="text/html" href="<? h($item->url); ?>" />
+      <title><? h($item->title); ?></title>
+      <id>tag:playr.hubmed.org,2005:atom,<? h($item->id); ?></id>
+      <updated><? print $date; ?></updated>
       <content type="xhtml">
         <div xmlns="http://www.w3.org/1999/xhtml">
-          <p>Play <a href="<?php p(FLASH_PLAYER . '?' . http_build_query($flash_params), 'attr'); ?>">Flash</a></p>
-          <p><a href="<?php p($item->url, 'attr'); ?>">Original page</a></p>
+          <p>Play <a href="<? h(FLASH_PLAYER . '?' . http_build_query($flash_params)); ?>">Flash</a></p>
+          <p><a href="<? h($item->url); ?>">Original page</a></p>
         </div>
       </content>
-    </entry>	
-<?php endwhile; ?>
+    </entry>
+<? endwhile; ?>
 
 </feed>
+
